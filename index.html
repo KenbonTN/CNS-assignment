@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AES and DES Encryption and Decryption</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.min.js"></script>
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+</head>
+<body>
+  <div class="container">
+    <h1 class="text-center">AES and DES Encryption and Decryption</h1>
+    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+    <button id="logout" class="btn btn-secondary" style="display: none;">Log Out</button>
+    <form>
+      <div class="form-group">
+        <label for="message">Enter a message to encrypt:</label>
+        <input type="text" class="form-control" id="message" name="message">
+      </div>
+      <div class="form-group">
+        <label for="key">Enter a key:</label>
+        <input type="text" class="form-control" id="key" name="key">
+      </div>
+      <div class="text-center">
+        <button type="button" class="btn btn-primary mr-2" onclick="encryptAES()">Encrypt with AES</button>
+        <button type="button" class="btn btn-primary mr-2" onclick="encryptDES()">Encrypt with DES</button>
+        <button type="button" class="btn btn-secondary mr-2" onclick="decryptAES()">Decrypt with AES</button>
+        <button type="button" class="btn btn-secondary" onclick="decryptDES()">Decrypt with DES</button>
+      </div>
+      <div class="form-group mt-3">
+        <label for="output">Encrypted/Decrypted message:</label>
+        <input type="text" class="form-control" id="output" name="output">
+      </div>
+    </form>
+  </div>
+  <script>
+    function onSignIn(googleUser) {
+      // Get the ID token and basic profile information
+      var id_token = googleUser.getAuthResponse().id_token;
+      var profile = googleUser.getBasicProfile();
+
+      // Display the user's email address
+      console.log('Email: ' + profile.getEmail());
+    }
+
+    function signOut() {
+      var auth2 = gapi.auth2.getAuthInstance();
+      auth2.signOut().then(function () {
+        console.log('User signed out.');
+        document.getElementById("logout").style.display = "none";
+      });
+    }
+
+    function encryptAES() {
+      var message = document.getElementById("message").value;
+      var key = document.getElementById("key").value;
+      var encrypted = CryptoJS.AES.encrypt(message, key);
+      document.getElementById("output").value = encrypted;
+    }
+
+    function encryptDES() {
+      var message = document.getElementById("message").value;
+      var key = document.getElementById("key").value;
+      var encrypted = CryptoJS.DES.encrypt(message, key);
+      document.getElementById("output").value = encrypted;
+    }
+
+    function decryptAES() {
+      var encrypted = document.getElementById("output").value;
+      var key = document.getElementById("key").value;
+      var decrypted = CryptoJS.AES.decrypt(encrypted, key);
+      document.getElementById("output").value = decrypted.toString(CryptoJS.enc.Utf8);
+    }
+
+    function decryptDES() {
+      var encrypted = document.getElementById("output").value;
+      var key = document.getElementById("key").value;
+      var decrypted = CryptoJS.DES.decrypt(encrypted, key);
+      document.getElementById("output").value = decrypted.toString(CryptoJS.enc.Utf8);
+    }
+  </script>
+</body
+
+   
